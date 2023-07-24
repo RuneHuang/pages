@@ -1,0 +1,2 @@
+# pages
+ install github pages
