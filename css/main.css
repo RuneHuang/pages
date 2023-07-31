@@ -273,3 +273,12 @@ footer a:not(.nav-link) {
 .introduce-line-height{
   line-height: 1.8;
 }
+
+@media (max-width: 576px){
+  .introduce-line-height{
+    line-height: 1.6;
+  }
+  .mobile-lineheight{
+    margin-top: 1em;
+  }
+}
