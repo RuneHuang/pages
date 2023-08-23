@@ -72,21 +72,32 @@
   /**
    * Big Picture Popup for Photo Gallary
    */
-   document.querySelectorAll(".bp-gallery a").forEach((function(e) {
+   document.querySelectorAll(".bp-gallery a").forEach((function (e) {
     var caption = e.querySelector('figcaption')
     var img = e.querySelector('img')
-    // set the link present on the item to the caption in full view
-    img.dataset.caption = '<a class="link-light" target="_blank" href="' + e.href + '">' + caption.innerHTML + '</a>';
-    window.console.log(caption, img)
-     e.addEventListener("click", (function(t){
-       t.preventDefault();
-       BigPicture({
-        el: t.target,
+    
+    // 1. If the link is non-functional, prevent all actions on it.
+    if (e.getAttribute('href') === 'javascript:void(0);') {
+      e.addEventListener('click', function(event) {
+        event.preventDefault();
+      });
+      var link = document.createElement('span');  // Create a span instead of an anchor
+      link.classList.add('link-light');  // Keep the styling
+      link.innerHTML = caption.innerHTML;
+      img.dataset.caption = link.outerHTML;  // Update the dataset caption to use the span instead of an anchor
+    } else {
+      img.dataset.caption = '<a class="link-light" target="_blank" href="' + e.href + '">' + caption.innerHTML + '</a>';
+    }
+    
+    // 2. Ensure that the clicked picture is shown in BigPicture
+    e.addEventListener("click", (function (t) {
+      t.preventDefault();
+      BigPicture({
+        el: img,  // Ensure we're showing the img from the clicked a-tag
         gallery: '.bp-gallery',
       })
-     })
-    )
-  }))
+    }))
+  }));
 
   // Add your javascript here
 
